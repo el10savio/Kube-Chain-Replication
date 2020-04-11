@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goproxy
+  namespace: craq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goproxy
+  template:
+    metadata:
+      namespace: craq
+      labels:
+        app: goproxy
+    spec:
+      containers:
+        - name: goproxy
+          image: goproxy
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8090
