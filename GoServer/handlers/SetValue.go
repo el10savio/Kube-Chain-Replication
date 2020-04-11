@@ -40,9 +40,12 @@ func SetValue(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = NeighborSetValue(getNeighbor(), store)
+	neighbor := getNeighbor()
+	err = NeighborSetValue(neighbor, store)
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed transmitting value to neighbor")
+	} else {
+		log.WithFields(log.Fields{"neighbor": neighbor}).Debug("successfully transmitted value to neighbor")
 	}
 
 	log.WithFields(log.Fields{
