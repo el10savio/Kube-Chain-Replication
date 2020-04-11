@@ -15,7 +15,7 @@ import (
 
 const (
 	// PORT ...
-	PORT = "8080"
+	PORT = ":8080"
 )
 
 // SetValue ...
@@ -41,11 +41,13 @@ func SetValue(w http.ResponseWriter, r *http.Request) {
 	}
 
 	neighbor := getNeighbor()
-	err = NeighborSetValue(neighbor, store)
-	if err != nil {
-		log.WithFields(log.Fields{"error": err}).Error("failed transmitting value to neighbor")
-	} else {
-		log.WithFields(log.Fields{"neighbor": neighbor}).Debug("successfully transmitted value to neighbor")
+	if neighbor != "" {
+		err = NeighborSetValue(neighbor, store)
+		if err != nil {
+			log.WithFields(log.Fields{"error": err}).Error("failed transmitting value to neighbor")
+		} else {
+			log.WithFields(log.Fields{"neighbor": neighbor}).Debug("successfully transmitted value to neighbor")
+		}
 	}
 
 	log.WithFields(log.Fields{
