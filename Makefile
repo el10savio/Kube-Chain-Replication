@@ -1,13 +1,13 @@
 
-image-clean:
+server-clean:
 	@echo "Cleaning GoServer Docker Container"
 	docker ps -a | awk '$$2 ~ /goserver/ {print $$1}' | xargs -I {} docker rm -f {}
 	
-image-build:
+server-build:
 	@echo "Building GoServer Docker Image"	
 	cd GoServer; docker build -t goserver -f Dockerfile .
 
-image-run:
+server-run:
 	@echo "Running GoServer Docker Container"
 	docker run -p 8080:8080 -d goserver
 
@@ -31,14 +31,22 @@ redis-run:
 	@echo "Running Redis Docker Container"
 	docker run -d -p 6379:6379 --name redis redis
 
+cluster: 
+	@echo "Starting Cluster"
+	kubectl apply -f goredis.yaml
+	kubectl create clusterrolebinding list-view --clusterrole=view --serviceaccount=craq:default
+	kubectl apply -f goproxy.yaml
+
 redis: redis-run
 
-image: image-build image-run
+server: server-build server-run
 
 proxy: proxy-build proxy-run
 
-clean: redis-clean image-clean proxy-clean
+clean: redis-clean server-clean proxy-clean
 
-all: clean redis image proxy
+image: clean redis server proxy
+
+all: image cluster
 
 stop: clean
