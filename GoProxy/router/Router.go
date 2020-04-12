@@ -10,14 +10,16 @@ import (
 	"../handlers"
 )
 
-// Route ...
+// Route defines the Mux
+// router individual route
 type Route struct {
 	Path    string
 	Method  string
 	Handler http.HandlerFunc
 }
 
-// Routes ...
+// Routes is a collection
+// of individual Routes
 var Routes = []Route{
 	Route{"/", "GET", Index},
 
@@ -30,12 +32,13 @@ var Routes = []Route{
 	Route{"/chain/neighbors", "GET", handlers.UpdateChainNeighbors},
 }
 
-// Index ...
+// Index is the handler for the path "/"
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World\n")
+	fmt.Fprintf(w, "Hello World GoProxy\n")
 }
 
-// Logger ...
+// Logger is the middleware to
+// log the incoming request
 func Logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.WithFields(log.Fields{
@@ -47,7 +50,7 @@ func Logger(next http.Handler) http.Handler {
 	})
 }
 
-// Router ...
+// Router returns a mux router
 func Router() *mux.Router {
 	router := mux.NewRouter()
 

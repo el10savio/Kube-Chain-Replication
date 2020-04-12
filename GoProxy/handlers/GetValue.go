@@ -10,10 +10,14 @@ import (
 	"../chain"
 )
 
-// GetValue ...
+// GetValue handler is a proxy 
+// to send a read request to 
+// the TAIL node of the chain
 func GetValue(w http.ResponseWriter, r *http.Request) {
+	// Obtain the key from URL params
 	key := mux.Vars(r)["key"]
 
+	// Get the TAIL node of the chain
 	TAIL, err := chain.GetTail()
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed to get tail node")
@@ -21,6 +25,7 @@ func GetValue(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Send a read request to the TAIL
 	store, err := chain.TailGetValue(TAIL, key)
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed to Get tail value")
@@ -33,5 +38,6 @@ func GetValue(w http.ResponseWriter, r *http.Request) {
 		"value": store.Value,
 	}).Debug("successfull GetValue")
 
+	// json encode response KV pair
 	json.NewEncoder(w).Encode(store)
 }

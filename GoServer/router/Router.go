@@ -33,7 +33,7 @@ var Routes = []Route{
 
 // Index is the handler for the path "/"
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World\n")
+	fmt.Fprintf(w, "Hello World GoServer\n")
 }
 
 // Logger is the middleware to

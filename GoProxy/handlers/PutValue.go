@@ -10,11 +10,15 @@ import (
 	"../store"
 )
 
-// SetValue ...
+// SetValue handler is a proxy 
+// to send a write request to 
+// the HEAD node of the chain
 func SetValue(w http.ResponseWriter, r *http.Request) {
+	// json decode the KV pair
 	var store store.Entry
 	_ = json.NewDecoder(r.Body).Decode(&store)
 
+	// Get the HEAD node of the chain
 	HEAD, err := chain.GetHead()
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed to get head node")
@@ -22,6 +26,7 @@ func SetValue(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Send a write request to the HEAD
 	responseStatus, err := chain.HeadSetValue(HEAD, store)
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed to set head value")
@@ -29,6 +34,8 @@ func SetValue(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Check if a valid response is 
+	// sent back from the HEAD
 	if responseStatus != http.StatusOK {
 		log.WithFields(log.Fields{"status": responseStatus}).Error("invalid response from head")
 		w.WriteHeader(http.StatusInternalServerError)

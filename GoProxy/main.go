@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	// PORT ...
+	// PORT defines the port value 
+	// for the GoProxy service
 	PORT = "8090"
 )
 

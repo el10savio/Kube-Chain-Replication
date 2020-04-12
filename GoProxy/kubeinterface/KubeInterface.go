@@ -9,6 +9,8 @@ import (
 	"k8s.io/client-go/rest"
 )
 
+// configCluster wrapper configures  
+// the Kubernetes cluster
 func configCluster() (config *rest.Config, err error) {
 	config, err = rest.InClusterConfig()
 	if err != nil {
@@ -27,7 +29,8 @@ func createClientset(config *rest.Config) (clientset *kubernetes.Clientset, err 
 	return
 }
 
-// GetPods ...
+// GetPods interface gets the podIPs of a given
+// pod name & namespace in the cluster
 func GetPods(podName string, namespace string) ([]string, error) {
 	config, err := configCluster()
 	if err != nil {

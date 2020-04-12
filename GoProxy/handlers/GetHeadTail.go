@@ -9,8 +9,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// GetHeadTail ...
+// GetHeadTail handler returns the HEAD & TAIL of the chain
 func GetHeadTail(w http.ResponseWriter, r *http.Request) {
+	// Get the HEAD node
 	head, err := chain.GetHead()
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed getting head from chain")
@@ -18,6 +19,7 @@ func GetHeadTail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get the TAIL node
 	tail, err := chain.GetTail()
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed getting tail from chain")
@@ -25,6 +27,8 @@ func GetHeadTail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Wrap them in a struct 
+	// to json encode them 
 	chain := chain.Initializers{HEAD: head, TAIL: tail}
 
 	log.WithFields(log.Fields{

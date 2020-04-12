@@ -9,8 +9,10 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// ChainHealth ...
+// ChainHealth gets a healthcheck status 
+// of all the nodes in the chain
 func ChainHealth(w http.ResponseWriter, r *http.Request) {
+	// Get active goredis pods
 	pods, err := chain.GetPodsList()
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed getting pods from cluster")
@@ -20,6 +22,7 @@ func ChainHealth(w http.ResponseWriter, r *http.Request) {
 
 	health := make([]chain.NodeStatus, 0)
 
+	// Update all pods health status
 	for _, pod := range pods {
 		status, err := chain.GetPodHealth(pod)
 		if err != nil || !status.Healthy {
