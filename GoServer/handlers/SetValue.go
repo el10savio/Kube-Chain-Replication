@@ -22,13 +22,16 @@ const (
 // SetValue is the handler interface
 // to set a key-value in Redis
 func SetValue(w http.ResponseWriter, r *http.Request) {
+	// json decoded KV pair 
 	var store store.Entry
 	_ = json.NewDecoder(r.Body).Decode(&store)
 
+	// Connect to Redis
 	pool := redis.NewPool()
 	connection := pool.Get()
 	defer connection.Close()
 
+	// Check if Redis connection is alright
 	err := redis.Ping(connection)
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed connecting to redis")
@@ -36,12 +39,14 @@ func SetValue(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Set key value pair to Redis
 	err = redis.Set(connection, store.Key, store.Value)
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed setting value")
 		return
 	}
 
+	// Transmit write pair to chain neighbor
 	neighbor := getNeighbor()
 	if neighbor != "" {
 		err = NeighborSetValue(neighbor, store)
@@ -68,11 +73,13 @@ func NeighborSetValue(Neighbor string, store store.Entry) error {
 		Timeout: time.Duration(10 * time.Second),
 	}
 
+	// json encoded KV pair 
 	bytesStore, err := json.Marshal(store)
 	if err != nil {
 		return err
 	}
 
+	// Send POST request to set value in neighbor
 	url := "http://" + strings.TrimSpace(Neighbor) + strings.TrimSpace(PORT) + "/store/set"
 	_, err = client.Post(url, "application/json", bytes.NewBuffer(bytesStore))
 	if err != nil {
