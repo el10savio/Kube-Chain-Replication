@@ -8,7 +8,10 @@ import (
 	redis "../redisInterface"
 )
 
-// Health ...
+// Health is the healthcheck handler to
+// check if the service and the
+// connection to Redis
+// is working
 func Health(w http.ResponseWriter, r *http.Request) {
 	pool := redis.NewPool()
 	connection := pool.Get()

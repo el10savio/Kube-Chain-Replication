@@ -11,7 +11,9 @@ import (
 	"../store"
 )
 
-// GetValue ...
+// GetValue is the handler interface to
+// obtain the corresponding value
+// from Redis given the key
 func GetValue(w http.ResponseWriter, r *http.Request) {
 	key := mux.Vars(r)["key"]
 

@@ -7,10 +7,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// Neighbor ...
+// Neighbor is the IP address
+// of the neighbor node
 var Neighbor string
 
-// UpdateNeighbor ...
+// UpdateNeighbor is the handler interface to
+// update the neighbor value from GoProxy
 func UpdateNeighbor(w http.ResponseWriter, r *http.Request) {
 	neighbor := mux.Vars(r)["neighbor"]
 
@@ -32,12 +34,14 @@ func UpdateNeighbor(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-// updateNeighbor ...
+// updateNeighbor updates the  local 
+// package neighbor value
 func updateNeighbor(neighbor string) {
 	Neighbor = neighbor
 }
 
-// getNeighbor ...
+// getNeighbor returns the  local 
+// package neighbor value
 func getNeighbor() string {
 	return Neighbor
 }

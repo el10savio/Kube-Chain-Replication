@@ -7,16 +7,19 @@ import (
 )
 
 const (
-	// PORT ...
+	// PORT defines the port value 
+	// for the Redis service
 	PORT = "6379"
 )
 
 var (
-	// ErrNil ...
+	// ErrNil defines the error 
+	// from Redis that the
+	// response is nil
 	ErrNil = redis.ErrNil
 )
 
-// NewPool ...
+// NewPool allocates a new Redis pool
 func NewPool() *redis.Pool {
 	return &redis.Pool{
 		MaxIdle:   80,
@@ -25,7 +28,8 @@ func NewPool() *redis.Pool {
 	}
 }
 
-// Dial ...
+// Dial connects to the 
+// given Redis service
 func Dial() (redis.Conn, error) {
 	connection, err := redis.Dial("tcp", ":"+PORT)
 	if err != nil {
@@ -35,7 +39,8 @@ func Dial() (redis.Conn, error) {
 	return connection, err
 }
 
-// Ping ...
+// Ping checks if the connection to
+// the Redis service is alright
 func Ping(connection redis.Conn) error {
 	pong, err := redis.String(connection.Do("PING"))
 	if err != nil {
@@ -49,7 +54,8 @@ func Ping(connection redis.Conn) error {
 	return nil
 }
 
-// Set ...
+// Set sets a value in Redis 
+// given the key and value
 func Set(connection redis.Conn, key string, value string) error {
 	_, err := connection.Do("SET", key, value)
 	if err != nil {
@@ -59,7 +65,8 @@ func Set(connection redis.Conn, key string, value string) error {
 	return nil
 }
 
-// Get ...
+// Get gets a value in Redis 
+// given the key
 func Get(connection redis.Conn, key string) (string, error) {
 	value, err := redis.String(connection.Do("GET", key))
 	if err != nil {

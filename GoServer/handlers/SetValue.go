@@ -14,11 +14,13 @@ import (
 )
 
 const (
-	// PORT ...
+	// PORT defines the port value 
+	// for the GoServer service
 	PORT = ":8080"
 )
 
-// SetValue ...
+// SetValue is the handler interface
+// to set a key-value in Redis
 func SetValue(w http.ResponseWriter, r *http.Request) {
 	var store store.Entry
 	_ = json.NewDecoder(r.Body).Decode(&store)
@@ -58,7 +60,9 @@ func SetValue(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-// NeighborSetValue ...
+// NeighborSetValue is the handler interface
+// to set a key-value in Redis 
+// of the neighbor node
 func NeighborSetValue(Neighbor string, store store.Entry) error {
 	client := http.Client{
 		Timeout: time.Duration(10 * time.Second),

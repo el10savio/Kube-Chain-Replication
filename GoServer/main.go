@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	// PORT ...
+	// PORT defines the port value 
+	// for the GoServer service
 	PORT = "8080"
 )
 
