@@ -6,7 +6,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	router "./router"
+	router "github.com/el10savio/Kube-Chain-Replication/GoProxy/router"
 )
 
 const (

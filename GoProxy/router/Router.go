@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 
-	"../handlers"
+	"github.com/el10savio/Kube-Chain-Replication/GoProxy/chain/handlers"
 )
 
 // Route defines the Mux

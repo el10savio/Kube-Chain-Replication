@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"../chain"
+	"github.com/el10savio/Kube-Chain-Replication/GoProxy/chain"
 
 	log "github.com/sirupsen/logrus"
 )

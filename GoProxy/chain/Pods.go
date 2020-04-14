@@ -3,7 +3,7 @@ package chain
 import (
 	"sort"
 
-	kube "../kubeinterface"
+	kube "github.com/el10savio/Kube-Chain-Replication/GoProxy/kubeinterface"
 )
 
 // GetPodsList interacts withe kube client 

@@ -6,8 +6,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"../chain"
-	"../store"
+	"github.com/el10savio/Kube-Chain-Replication/GoProxy/chain"
+	"github.com/el10savio/Kube-Chain-Replication/GoProxy/chain/store"
 )
 
 // SetValue handler is a proxy 

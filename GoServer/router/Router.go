@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 
-	"../handlers"
+	"github.com/el10savio/Kube-Chain-Replication/GoServer/handlers"
 )
 
 // Route defines the Mux 

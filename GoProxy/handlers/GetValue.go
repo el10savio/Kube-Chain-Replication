@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 
-	"../chain"
+	"github.com/el10savio/Kube-Chain-Replication/GoProxy/chain"
 )
 
 // GetValue handler is a proxy 

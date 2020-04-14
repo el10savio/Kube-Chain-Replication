@@ -7,8 +7,8 @@ import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 
-	redis "../redisInterface"
-	"../store"
+	redis "github.com/el10savio/Kube-Chain-Replication/GoServer/redisInterface"
+	"github.com/el10savio/Kube-Chain-Replication/GoServer/store"
 )
 
 // GetValue is the handler interface to

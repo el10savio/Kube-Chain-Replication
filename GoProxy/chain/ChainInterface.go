@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"../store"
+	"github.com/el10savio/Kube-Chain-Replication/GoProxy/store"
 )
 
 const (

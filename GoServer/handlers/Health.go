@@ -5,7 +5,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	redis "../redisInterface"
+	redis "github.com/el10savio/Kube-Chain-Replication/GoServer/redisInterface"
 )
 
 // Health is the healthcheck handler to
