@@ -8,9 +8,16 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// Scatter Gather Goroutine Result
+type neighborResult struct {
+	pod      string
+	neighbor string
+	err      error
+}
+
 // UpdateChainNeighbors handler updates all
-// the nodes in the chain on its 
-// respective neighbors except 
+// the nodes in the chain on its
+// respective neighbors except
 // the TAIL node
 func UpdateChainNeighbors(w http.ResponseWriter, r *http.Request) {
 	// Get active goredis pods
@@ -21,16 +28,27 @@ func UpdateChainNeighbors(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Send update neighbor request to 
-	// all pods except the TAIL 
-	for index := 0; index < len(pods)-1; index++ {
+	channel := make(chan neighborResult, len(pods)-1)
+
+	// Scatter Goroutines pattern to
+	// Send update neighbor request
+	// to all pods except the TAIL
+	for index := 0; index < cap(channel); index++ {
 		pod, neighbor := pods[index], pods[index+1]
-		err := chain.UpdatePodNeighbor(pod, neighbor)
-		if err != nil {
+		go func() {
+			err := chain.UpdatePodNeighbor(pod, neighbor)
+			channel <- neighborResult{pod, neighbor, err}
+		}()
+	}
+
+	// Gather Goroutines
+	for index := 0; index < cap(channel); index++ {
+		res := <-channel
+		if res.err != nil {
 			log.WithFields(log.Fields{
-				"error":    err,
-				"pod":      pod,
-				"neighbor": neighbor,
+				"error":    res.err,
+				"pod":      res.pod,
+				"neighbor": res.neighbor,
 			}).Error("failed updating neighbor")
 			continue
 		}
