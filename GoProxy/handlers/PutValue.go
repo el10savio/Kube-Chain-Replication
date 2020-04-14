@@ -7,11 +7,11 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/el10savio/Kube-Chain-Replication/GoProxy/chain"
-	"github.com/el10savio/Kube-Chain-Replication/GoProxy/chain/store"
+	"github.com/el10savio/Kube-Chain-Replication/GoProxy/store"
 )
 
-// SetValue handler is a proxy 
-// to send a write request to 
+// SetValue handler is a proxy
+// to send a write request to
 // the HEAD node of the chain
 func SetValue(w http.ResponseWriter, r *http.Request) {
 	// json decode the KV pair
@@ -34,7 +34,7 @@ func SetValue(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if a valid response is 
+	// Check if a valid response is
 	// sent back from the HEAD
 	if responseStatus != http.StatusOK {
 		log.WithFields(log.Fields{"status": responseStatus}).Error("invalid response from head")
