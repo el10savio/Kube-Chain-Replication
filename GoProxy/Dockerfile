@@ -1,13 +1,24 @@
-FROM golang:latest
+FROM golang:alpine AS builder
+
+RUN apk update && apk add --no-cache git 
 
 RUN mkdir /app
-ADD . /app/
 WORKDIR /app
 
-RUN go get -d ./...
-RUN cd $GOPATH/src/k8s.io/klog; git checkout v0.4.0
-RUN go build -v main.go
+COPY go.mod . 
+COPY go.sum .
 
-CMD ["/app/main"]
+RUN go mod download
+
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -installsuffix cgo -o /go/bin/app
+
+
+FROM scratch
+
+COPY --from=builder /go/bin/app /go/bin/app
+
+ENTRYPOINT ["/go/bin/app"]
 
 EXPOSE 8090

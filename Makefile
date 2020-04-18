@@ -29,13 +29,7 @@ redis-clean:
 	
 redis-run:
 	@echo "Running Redis Docker Container"
-	docker run -d -p 6379:6379 --name redis redis
-
-# cluster: 
-# 	@echo "Starting Cluster"
-# 	kubectl apply -f goredis.yaml
-# 	kubectl create clusterrolebinding list-view --clusterrole=view --serviceaccount=craq:default
-# 	kubectl apply -f goproxy.yaml
+	docker run -d -p 6379:6379 --name redis redis:alpine
 
 redis: redis-run
 

@@ -1,7 +1,6 @@
 package kubeinterface
 
 import (
-	"context"
 	"strings"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -9,7 +8,7 @@ import (
 	"k8s.io/client-go/rest"
 )
 
-// configCluster wrapper configures  
+// configCluster wrapper configures
 // the Kubernetes cluster
 func configCluster() (config *rest.Config, err error) {
 	config, err = rest.InClusterConfig()
@@ -42,7 +41,7 @@ func GetPods(podName string, namespace string) ([]string, error) {
 		return []string{}, err
 	}
 
-	pods, err := clientset.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
+	pods, err := clientset.CoreV1().Pods(namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return []string{}, err
 	}
